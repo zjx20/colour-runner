@@ -46,7 +46,14 @@ class ColourTextTestResult(result.TestResult):
     _test_class = None
 
     def __init__(self, stream, descriptions, verbosity):
-        super(ColourTextTestResult, self).__init__(stream, descriptions, verbosity)
+        import inspect
+        super_obj = super(ColourTextTestResult, self)
+        argspec = inspect.getargspec(super_obj.__init__)
+        if len(argspec.args) == 1:
+            super_obj.__init__()
+        else:
+            super_obj.__init__(stream, descriptions, verbosity)
+
         self.stream = stream
         self.showAll = verbosity > 1
         self.dots = verbosity == 1
@@ -129,3 +136,8 @@ class ColourTextTestResult(result.TestResult):
             self.stream.writeln(colour(title))
             self.stream.writeln(self.separator2)
             self.stream.writeln(highlight(err, self.lexer, self.formatter))
+
+    def stopTestRun(self):
+        super(ColourTextTestResult, self).stopTestRun()
+        self.printErrors()
+
