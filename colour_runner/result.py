@@ -58,6 +58,7 @@ class ColourTextTestResult(result.TestResult):
         self.showAll = verbosity > 1
         self.dots = verbosity == 1
         self.descriptions = descriptions
+        self._printed_errors = False
 
     def getShortDescription(self, test):
         doc_first_line = test.shortDescription()
@@ -122,10 +123,15 @@ class ColourTextTestResult(result.TestResult):
         self.printResult('u', 'unexpected success', 'unexpected')
 
     def printErrors(self):
+        if self._printed_errors:
+            return
+        
         if self.dots or self.showAll:
             self.stream.writeln()
         self.printErrorList('ERROR', self.errors)
         self.printErrorList('FAIL', self.failures)
+        
+        self._printed_errors = True
 
     def printErrorList(self, flavour, errors):
         colour = self.colours[flavour.lower()]
