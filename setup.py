@@ -1,5 +1,12 @@
 from setuptools import setup, find_packages
 
+import sys
+
+
+if sys.version_info < (2, 7):
+    requires = ['blessings', 'pygments', 'unittest2']
+else:
+    requires = ['blessings', 'pygments']
 
 setup(
     name='colour-runner',
@@ -21,5 +28,5 @@ setup(
     ],
     keywords='unittest colour color output',
     packages=find_packages(),
-    install_requires=['blessings', 'pygments'],
+    install_requires=requires,
 )

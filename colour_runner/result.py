@@ -1,5 +1,11 @@
-from unittest import result
-from unittest.util import strclass
+import sys
+
+if sys.version_info < (2, 7):
+    from unittest2 import result
+    from unittest2.util import strclass
+else:
+    from unittest import result
+    from unittest.util import strclass
 
 from blessings import Terminal
 from pygments import formatters, highlight

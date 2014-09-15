@@ -1,4 +1,9 @@
-from unittest import runner
+import sys
+
+if sys.version_info < (2, 7):
+    from unittest2 import runner
+else:
+    from unittest import runner
 
 from .result import ColourTextTestResult
 
